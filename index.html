@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Processing Lab</title>
+    <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <div class="wrap">
+  
+    <div class="grid">
+      <div class="card">
+        <h2 class="panel-title">Điều khiển</h2>
+
+        <div class="row-1">
+          <label>1) Chọn ảnh từ laptop</label>
+          <input id="fileInput" type="file" accept="image/*" />
+        </div>
+
+        <div class="row-1">
+          <label>2) Hoặc dán URL ảnh</label>
+          <div class="inline">
+            <input id="urlInput" type="text" placeholder="https://..." />
+            <button id="loadUrlBtn" class="secondary">Nạp URL</button>
+          </div>
+          <div class="small">Lưu ý: một số URL sẽ bị chặn do CORS, khi đó nên tải ảnh về máy rồi chọn trực tiếp.</div>
+        </div>
+
+        <hr style="border-color:#334155; opacity:.45; margin:14px 0;">
+
+        <div class="row">
+          <div>
+            <label>Thuật toán</label>
+            <select id="algorithmSelect">
+              <option value="grayscale">GrayScale Conversion</option>
+              <option value="hist_eq">Histogram Equalization</option>
+              <option value="negative">Negative Image</option>
+              <option value="threshold">Thresholding</option>
+              <option value="log">Logarithmic Transformation</option>
+              <option value="power">Power Law Transform</option>
+              <option value="bit_plane">Bit Plane Slicing</option>
+              <option value="spatial">Spatial Filtering</option>
+              <option value="edge">Edges Processing (Prewitt)</option>
+              <option value="laplacian">Laplacian Filtered Image</option>
+              <option value="sharpen">Sharpened Image</option>
+              <option value="sobel">Sobel Filter</option>
+              <option value="sobel_threshold">Sobel Filter with Thresholding</option>
+              <option value="points">Points Detection</option>
+              <option value="lines">Lines Detection</option>
+              <option value="erosion">Erosion (Co)</option>
+              <option value="dilation">Dilation (Giãn)</option>
+              <option value="opening">Opening</option>
+              <option value="closing">Closing</option>
+              <option value="boundary">Boundary Extraction</option>
+              <option value="region_fill">Region Filling</option>
+            </select>
+          </div>
+          <div>
+            <label>Chế độ đầu vào</label>
+            <select id="sourceSelect">
+              <option value="result">Dùng ảnh kết quả hiện tại</option>
+              <option value="original">Luôn dùng ảnh gốc</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Ngưỡng (Threshold)</label>
+            <input id="thresholdRange" type="range" min="0" max="255" value="128" />
+            <div class="pill">Giá trị: <span id="thresholdValue">128</span></div>
+          </div>
+          <div>
+            <label>Gamma (Power Law)</label>
+            <input id="gammaRange" type="range" min="10" max="500" value="100" />
+            <div class="pill">Gamma: <span id="gammaValue">1.00</span></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Hằng số c (cho Log / Power)</label>
+            <input id="constantInput" type="number" step="0.1" min="0.1" max="50" value="1" />
+          </div>
+          <div>
+            <label>Bit plane</label>
+            <select id="bitPlaneSelect">
+              <option value="0">Bit 0</option>
+              <option value="1">Bit 1</option>
+              <option value="2">Bit 2</option>
+              <option value="3">Bit 3</option>
+              <option value="4">Bit 4</option>
+              <option value="5">Bit 5</option>
+              <option value="6">Bit 6</option>
+              <option value="7" selected>Bit 7</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Spatial filter</label>
+            <select id="spatialType">
+              <option value="mean">Mean Filter</option>
+              <option value="gaussian">Gaussian 3x3</option>
+              <option value="median">Median Filter</option>
+            </select>
+          </div>
+          <div>
+            <label>Kernel / SE size</label>
+            <select id="kernelSize">
+              <option value="3">3 x 3</option>
+              <option value="5">5 x 5</option>
+              <option value="7">7 x 7</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Hướng dò line</label>
+            <select id="lineDirection">
+              <option value="horizontal">Horizontal</option>
+              <option value="vertical">Vertical</option>
+              <option value="diag45">Diagonal 45°</option>
+              <option value="diag135">Diagonal 135°</option>
+            </select>
+          </div>
+          <div>
+            <label>Ngưỡng Points/Lines/Sobel-T</label>
+            <input id="detectThreshold" type="number" min="0" max="255" value="120" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Seed X (Region Filling)</label>
+            <input id="seedX" type="number" min="0" value="0" />
+          </div>
+          <div>
+            <label>Seed Y (Region Filling)</label>
+            <input id="seedY" type="number" min="0" value="0" />
+          </div>
+        </div>
+
+        <div class="small">
+          Gợi ý: Với Erosion / Dilation / Opening / Closing / Boundary / Region Filling, nên chạy Threshold trước để ảnh nhị phân rõ hơn.
+          Bạn cũng có thể click trực tiếp lên canvas kết quả để lấy seed point cho Region Filling.
+        </div>
+
+        <div class="btns">
+          <button id="applyBtn" class="primary">Áp dụng thuật toán</button>
+          <button id="resetBtn">Khôi phục kết quả = ảnh gốc</button>
+          <button id="swapBtn">Đưa ảnh kết quả thành ảnh gốc</button>
+          <button id="downloadBtn" class="secondary">Tải ảnh kết quả</button>
+          <button id="demoBtn" class="danger">Nạp ảnh demo</button>
+        </div>
+
+        <div id="status" class="status">Sẵn sàng. Hãy chọn ảnh từ máy hoặc nhập URL ảnh.</div>
+      </div>
+
+      <div>
+        <div class="viewer">
+          <div class="canvas-card">
+            <div class="canvas-title">
+              <strong>Ảnh gốc</strong>
+              <span class="pill" id="originalInfo">Chưa có ảnh</span>
+            </div>
+            <div class="canvas-box">
+              <canvas id="originalCanvas"></canvas>
+            </div>
+          </div>
+
+          <div class="canvas-card">
+            <div class="canvas-title">
+              <strong>Ảnh kết quả</strong>
+              <span class="pill" id="resultInfo">Chưa có ảnh</span>
+            </div>
+            <div class="canvas-box">
+              <canvas id="resultCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="hist-wrap">
+          <div class="hist-box">
+            <div class="canvas-title"><strong>Histogram ảnh gốc</strong></div>
+            <canvas id="histOriginal" width="560" height="220"></canvas>
+          </div>
+          <div class="hist-box">
+            <div class="canvas-title"><strong>Histogram ảnh kết quả</strong></div>
+            <canvas id="histResult" width="560" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

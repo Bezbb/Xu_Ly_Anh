@@ -24,14 +24,7 @@ const fileInput = document.getElementById('fileInput');
     const originalInfo = document.getElementById('originalInfo');
     const resultInfo = document.getElementById('resultInfo');
 
-    const originalCanvas = document.getElementById('originalCanvas');
-    const resultCanvas = document.getElementById('resultCanvas');
-    const originalCtx = originalCanvas.getContext('2d', { willReadFrequently: true });
-    const resultCtx = resultCanvas.getContext('2d', { willReadFrequently: true });
-    const histOriginal = document.getElementById('histOriginal');
-    const histResult = document.getElementById('histResult');
-    const histOriginalCtx = histOriginal.getContext('2d');
-    const histResultCtx = histResult.getContext('2d');
+
 
     thresholdRange.addEventListener('input', () => thresholdValue.textContent = thresholdRange.value);
     gammaRange.addEventListener('input', () => gammaValue.textContent = (Number(gammaRange.value) / 100).toFixed(2));
@@ -80,22 +73,6 @@ const fileInput = document.getElementById('fileInput');
       });
     }
 
-    async function loadFromURL() {
-      const url = urlInput.value.trim();
-      if (!url) {
-        setStatus('Bạn chưa nhập URL ảnh.');
-        return;
-      }
-      try {
-        const img = await loadImageElement(url);
-        fitDrawImage(img, originalCanvas, originalCtx);
-        copyCanvas(originalCanvas, resultCanvas);
-        updateInfo();
-        setStatus('Đã nạp ảnh từ URL thành công.');
-      } catch (err) {
-        setStatus('Không nạp được ảnh từ URL. Có thể ảnh bị chặn CORS. Hãy tải ảnh về máy và chọn trực tiếp.');
-      }
-    }
 
     function loadFromFile(file) {
       const reader = new FileReader();
@@ -301,28 +278,7 @@ const fileInput = document.getElementById('fileInput');
           const arr = [];
           for (let ky = -half; ky <= half; ky++) {
             for (let kx = -half; kx <= half; kx++) {
-              const px = Math.min(w - 1, Math.max(0, x + kx));
-              const py = Math.min(h - 1, Math.max(0, y + ky));
-              arr.push(src[py * w + px]);
-            }
-          }
-          arr.sort((a, b) => a - b);
-          dst[y * w + x] = arr[Math.floor(arr.length / 2)];
-        }
-      }
-      return grayMatrixToImage(dst, w, h);
-    }
 
-    function prewittEdge(imageData) {
-      const gxKernel = [-1,0,1,-1,0,1,-1,0,1];
-      const gyKernel = [-1,-1,-1,0,0,0,1,1,1];
-      return gradientMagnitude(imageData, gxKernel, gyKernel);
-    }
-
-    function sobelFilter(imageData) {
-      const gxKernel = [-1,0,1,-2,0,2,-1,0,1];
-      const gyKernel = [-1,-2,-1,0,0,0,1,2,1];
-      return gradientMagnitude(imageData, gxKernel, gyKernel);
     }
 
     function gradientMagnitude(imageData, kx, ky) {

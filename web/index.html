@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xử Lý Ảnh Số</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="header-brand">
+      <h1>Xử Lý Ảnh Số</h1>
+      <p>Ứng dụng xử lý và phân tích ảnh kỹ thuật số</p>
+    </div>
+    <div class="top-actions">
+      <label class="file-button">
+        <input id="fileInput" type="file" accept="image/png,image/jpeg,image/jpg">
+        📁 Chọn Ảnh
+      </label>
+      <button id="resetBtn" type="button" disabled>↻ Phục hồi</button>
+      <button id="downloadBtn" type="button" disabled>💾 Lưu Ảnh</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="tool-panel">
+      <div class="panel-title">⚙️ Thuật toán</div>
+      <label class="field">
+        <select id="operationSelect">
+          <option value="grayscale">GrayScale Conversion Image</option>
+          <option value="equalize">Histogram Equalization</option>
+          <option value="negative">Negative Image</option>
+          <option value="threshold">Thresholding</option>
+          <option value="log">Logarithmic transformation</option>
+          <option value="power">Power law transforms</option>
+          <option value="bitplane">Bit plane slicing</option>
+          <option value="min">Min neighbourhood filter</option>
+          <option value="max">Max neighbourhood filter</option>
+          <option value="median">Median filter</option>
+          <option value="average">Average filter</option>
+          <option value="weightedAverage">Weighted average filter</option>
+          <option value="pad">Pad border</option>
+          <option value="replicate">Replicate border</option>
+          <option value="laplacian">Laplcian Filtered Image</option>
+          <option value="sharpen">Sharpened Image</option>
+          <option value="sobel">Sobel Filter</option>
+          <option value="sobelThreshold">Soble Filter with Thresholding</option>
+          <option value="point">Points Detection</option>
+          <option value="line">Lines Detection</option>
+          <option value="erosion">Erosion</option>
+          <option value="dilation">Dilation</option>
+          <option value="opening">Opening</option>
+          <option value="closing">Closing</option>
+          <option value="boundary">Boundary Extraction</option>
+        </select>
+      </label>
+
+      <div class="divider"></div>
+
+      <div id="paramPanel" class="params">
+        <label class="field param" data-param="threshold">
+          <span>Ngưỡng</span>
+          <input id="thresholdInput" type="number" min="0" max="255" value="128">
+        </label>
+
+        <label class="field param" data-param="constant">
+          <span>Hằng số C</span>
+          <input id="constantInput" type="number" min="1" max="20" value="5">
+        </label>
+
+        <label class="field param" data-param="gamma">
+          <span>Gamma</span>
+          <input id="gammaInput" type="number" min="0" max="0.99" step="0.01" value="0.5">
+        </label>
+
+        <label class="field param" data-param="bit">
+          <span>Bit</span>
+          <input id="bitInput" type="number" min="0" max="7" value="0">
+        </label>
+
+        <label class="field param" data-param="edge">
+          <span>Kích thước viền</span>
+          <input id="edgeInput" type="number" min="1" max="200" value="10">
+        </label>
+
+        <label class="field param" data-param="padColor">
+          <span>Màu viền</span>
+          <select id="padColorSelect">
+            <option value="1">Trắng</option>
+            <option value="0">Đen</option>
+          </select>
+        </label>
+
+        <label class="field param" data-param="lineDirection">
+          <span>Hướng đường</span>
+          <select id="lineDirectionSelect">
+            <option value="1">Ngang</option>
+            <option value="2">45°</option>
+            <option value="3">Dọc</option>
+            <option value="4">-45°</option>
+          </select>
+        </label>
+      </div>
+
+      <button id="applyBtn" class="primary-action" type="button" disabled>▶ Xử lý</button>
+
+      <div class="meta">
+        <div>
+          <span>Ảnh Gốc</span>
+          <strong id="originalMeta">-</strong>
+        </div>
+        <div>
+          <span>Kết Quả</span>
+          <strong id="resultMeta">-</strong>
+        </div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <div class="canvas-grid">
+        <figure class="viewport">
+          <figcaption>📷 Ảnh Gốc</figcaption>
+          <div class="canvas-frame">
+            <canvas id="originalCanvas"></canvas>
+          </div>
+        </figure>
+
+        <figure class="viewport">
+          <figcaption>📊 Ảnh Kết Quả</figcaption>
+          <div class="canvas-frame">
+            <canvas id="resultCanvas"></canvas>
+          </div>
+        </figure>
+      </div>
+
+      <div class="histogram-grid">
+        <figure class="histogram">
+          <figcaption>📈 Histogram Gốc</figcaption>
+          <canvas id="originalHistogram" width="512" height="180"></canvas>
+        </figure>
+
+        <figure class="histogram">
+          <figcaption>📈 Histogram Kết Quả</figcaption>
+          <canvas id="resultHistogram" width="512" height="180"></canvas>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

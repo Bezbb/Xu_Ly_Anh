@@ -1,33 +1,47 @@
-# Xu_Ly_Anh
-# Demo
-<a href="https://youtu.be/Qo7MMmcgTxg">Xem video tại đây!!!</a>
-# Digital Image Processing
-* Bài tập lớn môn Xử Lý Ảnh, Học Kỳ 2 năm 3, HVCNBCVT 
-* NetBeans IDE 8.2
-* Phiên bản JDK 8
-* Encoding UTF-8
+# XuLyAnh Web
 
-Yêu cầu: Cài đặt các thuật toán đã học trong slide bài giảng bằng ngôn ngữ lập trình tùy ý... 
+Ung dung web tinh dung Canvas de xu ly anh so. Du an goc la Java Swing/NetBeans; logic thuat toan da duoc port sang JavaScript va phan Java goc da duoc loai bo de du an gon hon.
 
- - GrayScale Conversion Image (chuyển ảnh thành ảnh xám)
- - Histogram Equalization (cân bằng histogram)
- - Negative Image (Ảnh âm bảng)
- - Thresholding( Ngưỡng)
- - Logarithmic transformation 
- - Power law transforms
- - Bit plane slicing
- - Spatial Filtering (bộ lọc không gian)
- - Edges processing (xử lý cạnh)
- - Laplcian Filtered Image
- - Sharpened Image
- - Sobel Filter (bộ lọc sobel)
- - Soble Filter with Thresholding
- - Points Detection (phát hiện điểm)
- - Lines Detection (phát hiện biên)
- - Erosion(Co)
- - Dilation(Giãn)
- - Opening
- - Closing
- - Boundary Extraction  (Trích xuất đường biên)
- - Region Filling (Tô vùng)
- 
+## Cach chay
+
+Mo truc tiep file:
+
+```powershell
+start web\index.html
+```
+
+Hoac mo `web/index.html` bang trinh duyet.
+
+Khong can cai NetBeans, JDK, JFreeChart hay chay server.
+
+## Cau truc
+
+- `web/index.html`: giao dien chinh.
+- `web/styles.css`: giao dien va responsive layout.
+- `web/app.js`: logic xu ly anh bang Canvas/ImageData.
+
+## Thuat toan da port
+
+- GrayScale Conversion Image
+- Histogram Equalization (Biểu đồ phân bố độ sáng, giúp cải thiện độ tương phản của ảnh)
+  - **Chi tiết:** Hiển thị 2 biểu đồ (ảnh gốc & kết quả) với độ phân giải 256 mức xám
+  - **Chức năng:** Phân tích phân bố pixel trong từng kênh màu (R, G, B)
+  - **Kích thước:** 512px x 180px, tỷ lệ 1:1 cho mỗi giá trị pixel
+- Negative Image
+- Thresholding
+- Logarithmic transformation
+- Power law transforms
+- Bit plane slicing
+- Min, Max, Median, Average, Weighted Average filter
+- Pad border va Replicate border
+- Laplcian Filtered Image
+- Sharpened Image
+- Sobel Filter
+- Soble Filter with Thresholding
+- Points Detection
+- Lines Detection
+- Erosion
+- Dilation
+- Opening
+- Closing
+- Boundary Extraction
